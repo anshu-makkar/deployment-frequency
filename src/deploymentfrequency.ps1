@@ -63,7 +63,8 @@ function Main ([string] $ownerRepo,
     $workflowIds = [System.Collections.ArrayList]@()
     $workflowNames = [System.Collections.ArrayList]@()
     Foreach ($workflow in $workflowsResponse.workflows){
-
+    Write-Host "workflow: $(workflow)"
+    Write-Host "workflow.id: $(workflow.id)"
         Foreach ($arrayItem in $workflowsArray){
             if ($workflow.name -eq $arrayItem)
             {
@@ -104,7 +105,7 @@ function Main ([string] $ownerRepo,
             #Count workflows that are completed, on the target branch, and were created within the day range we are looking at
             if ($run.head_branch -eq $branch -and $run.created_at -gt (Get-Date).AddDays(-$numberOfDays))
             {
-                #Write-Host "Adding item with status $($run.status), branch $($run.head_branch), created at $($run.created_at), compared to $((Get-Date).AddDays(-$numberOfDays))"
+                Write-Host "Adding item with status $($run.status), branch $($run.head_branch), created at $($run.created_at), compared to $((Get-Date).AddDays(-$numberOfDays))"
                 $buildTotal++       
                 #get the workflow start and end time            
                 $dateList += New-Object PSObject -Property @{start_datetime=$run.created_at;end_datetime=$run.updated_at}
@@ -123,7 +124,7 @@ function Main ([string] $ownerRepo,
                 $deploymentsPerDay = $dateList.Count / $numberOfDays
             }
             $deploymentsPerDayList += $deploymentsPerDay
-            #Write-Host "Adding to list, workflow id $workflowId deployments per day of $deploymentsPerDay"
+            Write-Host "Adding to list, workflow id $workflowId deployments per day of $deploymentsPerDay"
         }
     }
 
@@ -135,7 +136,7 @@ function Main ([string] $ownerRepo,
     {
         $deploymentsPerDay = $totalDeployments / $deploymentsPerDayList.Length
     }
-    #Write-Host "Total deployments $totalDeployments with a final deployments value of $deploymentsPerDay"
+    Write-Host "Total deployments $totalDeployments with a final deployments value of $deploymentsPerDay"
 
     #==========================================
     #Show current rate limit
