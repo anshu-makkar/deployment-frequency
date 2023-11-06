@@ -63,8 +63,8 @@ function Main ([string] $ownerRepo,
     $workflowIds = [System.Collections.ArrayList]@()
     $workflowNames = [System.Collections.ArrayList]@()
     Foreach ($workflow in $workflowsResponse.workflows){
-    Write-Host "workflow: $(workflow)"
-    Write-Host "workflow.id: $(workflow.id)"
+    Write-Host "workflow: $workflow"
+    Write-Host "workflow.id: $($workflow.id)"
         Foreach ($arrayItem in $workflowsArray){
             if ($workflow.name -eq $arrayItem)
             {
